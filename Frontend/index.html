@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Self-watering system</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Self-watering system</h1>
+        <div class="status">
+            <h2>Vlažnost tla:</h2>
+            <div class="progress-bar">
+                <div id="vlaznostTla" class="progress-bar-fill">-</div>
+            </div>
+        </div>
+        <div class="procenat">
+            <h2>Procenat vlaznosti:</h2>
+            <div class="progress-bar">
+                <div id="procenatVlaznosti" class="progress-bar-fill2">-</div>
+            </div>
+        </div>
+        <div class="pump-control">
+            <h2>Status pumpe:</h2>
+            <p id="statusPumpe">-</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7i9AyTKUHuU8XOQxfpfuEhTOQUX9Edb8",
+            authDomain: "selfwateringsystem-16930.firebaseapp.com",
+            databaseURL: "https://selfwateringsystem-16930-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "selfwateringsystem-16930",
+            storageBucket: "selfwateringsystem-16930.appspot.com",
+            messagingSenderId: "933177841783",
+            appId: "1:933177841783:web:e0817088e7666b69ecce72"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Reference to the path in your database
+        const dataRef = ref(database, 'IoT');
+
+        var vlaznost = document.getElementById('vlaznostTla');
+        var procenatVlaznost = document.getElementById('procenatVlaznosti');
+        var pumpStatus = document.getElementById('statusPumpe');
+
+        function updateBackgroundColors(vlaznostTla, procenatVlaznosti) {
+
+            // Update the background color for vlaznostTla
+            if (vlaznostTla > 500) {
+                vlaznost.classList.add('red-bg');
+                vlaznost.classList.remove('green-bg');
+            } else {
+                vlaznost.classList.add('green-bg');
+                vlaznost.classList.remove('red-bg');
+            }
+
+        }
+
+        // Read data from the database
+        onValue(dataRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                // Update HTML elements with the data from Firebase
+                pumpStatus.innerText = data.stanjePumpe == 0 ? 'Isključena' : 'Uključena';
+                let vlaznostTlaValue = data.vlaznostTla;
+                let procenatVlaznostiValue = data.procenatVlaznosti;
+
+                vlaznost.innerText = vlaznostTlaValue;
+                procenatVlaznosti.innerText = procenatVlaznostiValue + "%";
+
+                // Update background colors based on the values
+                updateBackgroundColors(vlaznostTlaValue, procenatVlaznostiValue);
+            } else {
+                console.warn('No data available at the specified path.');
+            }
+        }, (error) => {
+            console.error('Error reading data:', error);
+        });
+    </script>
+</body>
+
+</html>
