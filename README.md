@@ -26,7 +26,7 @@ My first IoT project implemented for presentation at University.
 ## Usage
 Soil moisture sensor loads value and if a value is under the humidity limit, the pump starts on. Users can follow all changes on a web application (information about the value of the soil sensor, percentage of soil moisture and state of pump).
 
-##Goal of the project
+## Goal of the project
 Using this solution, the project's main goal is to save water and increase the process of watering plants in different areas.
   
 ## Find a bug?
