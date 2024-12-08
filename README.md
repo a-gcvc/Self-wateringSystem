@@ -1,7 +1,7 @@
 # IoT Self-watering system
 My first IoT project implemented for presentation at University.
 
-##Video demonstration
+## Video demonstration
 https://youtu.be/p2ntyNrYryM
 
 ## Hardware materials: 
