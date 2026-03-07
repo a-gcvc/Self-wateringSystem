@@ -2,7 +2,7 @@
 My first IoT project implemented for presentation at University.
 
 ## Video demonstration
-https://youtu.be/p2ntyNrYryM
+[Video](https://youtu.be/p2ntyNrYryM)
 
 ## Hardware materials: 
   - NodeMCU ESP8266 
